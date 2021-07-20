@@ -1,6 +1,5 @@
 export function Form() {
     return (
-
         <div className="container mt-4">
             <h2 className="text-center">Product Details</h2>
             <form className="mt-5">
