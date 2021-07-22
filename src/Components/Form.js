@@ -45,6 +45,7 @@ export function Form() {
                         <label for="name">Brand Name :</label>
                         <input type="text" className="form-control" id="productBrand" placeholder="Enter Brand Name" />
                     </div>
+                    <input type="submit" value="Submit" />
                 </div>
             </form>
         </div>

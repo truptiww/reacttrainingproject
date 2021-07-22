@@ -1,13 +1,16 @@
 // import logo from './logo.svg';
 import './App.css';
-import {Navbar} from "./Components/Navbar"
-import { Login } from './Components/Login';
-import { Form } from './Components/Form';
+import Navbar from "./Components/Navbar"
+import Login from './Components/Login';
+import  Form  from './Components/Form';
 // import Loader from "react-loader-spinner";
-import {Home} from './Components/Home'
+import Home from './Components/Home'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Signup from './Components/Signup';
 import Pagenotfound from './Components/Pagenotfound';
+import CakeDetails from './Components/CakeDetails';
+import Search from './Components/Search';
+import CakeList from './Components/CakeList';
 
 function App() {
   return (
@@ -24,8 +27,11 @@ function App() {
          <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/form" component={Form} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login"><Login/></Route> 
           <Route exact path="/signup" component={Signup} />
+          <Route exact path="/cakedetails" component={CakeDetails} />
+          <Route exact path="/search" component={Search} />
+          <Route exact path="/cakelist" component={CakeList}/>
           <Route exact path="**" component={Pagenotfound} />
          </Switch>
          </BrowserRouter>

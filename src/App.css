@@ -40,3 +40,14 @@
 .form-group {
   margin-bottom: 2rem;
 }
+
+.star-rating {
+  line-height:32px;
+  font-size:1.25em;
+}
+
+.star-rating .fa-star{color: yellow;}
+
+.errormessage{
+  color: red;
+}

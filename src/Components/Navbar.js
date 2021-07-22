@@ -1,32 +1,66 @@
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-var logoName = "Logo"
+export function Navbar(props) {
+  var [title, setTitle] = useState("Cake's Gallery")
+  var [searchtext, setSearchText] = useState(undefined)
 
-export function Navbar(){
+  // useEffect(()=>{
+  //    alert("mounted")
+  // },[]) 
+
+  // function demo(event){
+  //   event.preventDefault()
+  //   var value = document.getElementById('searchinput').value
+  //   setTitle(value +  " Cake's Gallery")
+  // }
+
+  function search(e) {
+    e.preventDefault()
+
+    if (searchtext) {
+      var url = "/search?q=" + searchtext
+      props.history.push(url)
+    }
+  }
+
+  function getSearchText(event) {
+    setSearchText(event.target.value)
+  }
+
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <Link to="/" class="navbar-brand">{logoName}</Link>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <Link to="/Form" class="nav-link">Product Form</Link>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <Link to="/Login"><button class="btn btn-primary my-2 my-sm-0 mr-4" type="button">Login</button></Link>
-      </form>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Link to="/" className="navbar-brand">{title}</Link>
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to="/Form" class="nav-link">Product Form</Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/CakeList" class="nav-link">Cake Types</Link>
+          </li>
+        </ul>
+        <form className="form-inline my-2 my-lg-0">
+          <Link to="/Login"><button className="btn btn-primary my-2 my-sm-0 mr-4" type="button">Login</button></Link>
+        </form>
+        <form className="form-inline my-2 my-lg-0">
+          {/* <input onChange={demo} value={title} className="form-control mr-sm-2" id="searchinput" type="search" placeholder="Search" aria-label="Search"/>
+        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> */}
+
+          {/* <input className="form-control mr-sm-2" id="searchinput" type="search" placeholder="Search" aria-label="Search"/>
+        <button onClick={demo} className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> */}
+
+          <input onChange={getSearchText} id="searchinput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          <button onClick={search}  class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
   )
 }
 
-export default Navbar;
+export default Navbar = withRouter(Navbar)
 
