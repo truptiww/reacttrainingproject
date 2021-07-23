@@ -44,9 +44,16 @@ export function Navbar(props) {
             <Link to="/CakeList" class="nav-link">Cake Types</Link>
           </li>
         </ul>
-        <form className="form-inline my-2 my-lg-0">
-          <Link to="/Login"><button className="btn btn-primary my-2 my-sm-0 mr-4" type="button">Login</button></Link>
-        </form>
+
+        {props.isuserloggedin===false && <form class="form-inline my-2 my-lg-0 mr-4">
+          <Link to="/login"> <button  class="btn btn-primary my-2 my-sm-0" type="submit">Login</button></Link>
+        </form>}
+
+        {props.isuserloggedin===true && <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Cart</button>
+          <button class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Logout</button>
+        </form>}
+
         <form className="form-inline my-2 my-lg-0">
           {/* <input onChange={demo} value={title} className="form-control mr-sm-2" id="searchinput" type="search" placeholder="Search" aria-label="Search"/>
         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> */}

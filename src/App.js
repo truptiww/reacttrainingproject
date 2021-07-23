@@ -11,8 +11,14 @@ import Pagenotfound from './Components/Pagenotfound';
 import CakeDetails from './Components/CakeDetails';
 import Search from './Components/Search';
 import CakeList from './Components/CakeList';
+import { useState } from 'react';
+
 
 function App() {
+  var [isuserloggedin,setUserlogin] = useState(localStorage.token?true:false)
+  function loggedin(){
+     setUserlogin(true)
+  }
   return (
         <div>
           <BrowserRouter>
@@ -23,11 +29,11 @@ function App() {
             width={50}
             timeout={5000} //5 secs
           /> */}
-         <Navbar/>
+         <Navbar isuserloggedin={isuserloggedin} />
          <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/form" component={Form} />
-          <Route exact path="/login"><Login/></Route> 
+          <Route exact path="/login"><Login loggedin={loggedin}/></Route> 
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/cakedetails" component={CakeDetails} />
           <Route exact path="/search" component={Search} />
