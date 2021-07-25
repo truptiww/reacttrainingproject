@@ -47,7 +47,7 @@ class Signup extends PureComponent {
         //     })
         // },5000)
 
-        let apiurl = "https://apifromashu.herokuapp.com/api/register"
+        let apiurl = process.env.REACT_APP_BASE_API + "/register"
         axios({
             method:"post",
             url:apiurl,

@@ -1,9 +1,20 @@
 import { Link, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+
 
 export function Navbar(props) {
   var [title, setTitle] = useState("Cake's Gallery")
   var [searchtext, setSearchText] = useState(undefined)
+  const notifysuccess = () => toast.success('Logout Sucessfully!', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    })
 
   // useEffect(()=>{
   //    alert("mounted")
@@ -28,6 +39,13 @@ export function Navbar(props) {
     setSearchText(event.target.value)
   }
 
+  function logout(event){
+    event.preventDefault();
+    props.loggedOut();
+    localStorage.clear();
+    notifysuccess();
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand">{title}</Link>
@@ -37,9 +55,9 @@ export function Navbar(props) {
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link to="/Form" class="nav-link">Product Form</Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link to="/CakeList" class="nav-link">Cake Types</Link>
           </li>
@@ -50,8 +68,8 @@ export function Navbar(props) {
         </form>}
 
         {props.isuserloggedin===true && <form class="form-inline my-2 my-lg-0">
-          <button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Cart</button>
-          <button class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Logout</button>
+        <button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Cart</button>
+        <button onClick={logout} class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Logout</button>
         </form>}
 
         <form className="form-inline my-2 my-lg-0">

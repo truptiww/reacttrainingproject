@@ -12,6 +12,10 @@ import CakeDetails from './Components/CakeDetails';
 import Search from './Components/Search';
 import CakeList from './Components/CakeList';
 import { useState } from 'react';
+import RecoverPassword from './Components/RecoverPassword';
+import PrivateRoute from './PrivateRoute'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 function App() {
@@ -19,8 +23,14 @@ function App() {
   function loggedin(){
      setUserlogin(true)
   }
+
+  function loggedOut() {
+    setUserlogin(false);
+  }
+
   return (
         <div>
+          <ToastContainer/>
           <BrowserRouter>
            {/* <Loader
             type="ThreeDots"
@@ -29,15 +39,16 @@ function App() {
             width={50}
             timeout={5000} //5 secs
           /> */}
-         <Navbar isuserloggedin={isuserloggedin} />
+         <Navbar isuserloggedin={isuserloggedin} loggedOut={loggedOut} />
          <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/form" component={Form} />
           <Route exact path="/login"><Login loggedin={loggedin}/></Route> 
+          <Route exact path="/recoverpassword"><RecoverPassword/></Route>
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/cakedetails" component={CakeDetails} />
+          <PrivateRoute path="/cake/:cakeid" component={CakeDetails}  />
           <Route exact path="/search" component={Search} />
-          <Route exact path="/cakelist" component={CakeList}/>
+          <PrivateRoute path="/cakelist" component={CakeList} />
           <Route exact path="**" component={Pagenotfound} />
          </Switch>
          </BrowserRouter>
