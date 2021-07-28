@@ -15,18 +15,19 @@ import { useState } from 'react';
 import RecoverPassword from './Components/RecoverPassword';
 import PrivateRoute from './PrivateRoute'
 import { ToastContainer, toast } from 'react-toastify';
+import Cart from './Components/Cart';
 
 
 
 function App() {
-  var [isuserloggedin,setUserlogin] = useState(localStorage.token?true:false)
-  function loggedin(){
-     setUserlogin(true)
-  }
+  // var [isuserloggedin,setUserlogin] = useState(localStorage.token?true:false)
+  // function loggedin(){
+  //    setUserlogin(true)
+  // }
 
-  function loggedOut() {
-    setUserlogin(false);
-  }
+  // function loggedOut() {
+  //   setUserlogin(false);
+  // }
 
   return (
         <div>
@@ -39,16 +40,19 @@ function App() {
             width={50}
             timeout={5000} //5 secs
           /> */}
-         <Navbar isuserloggedin={isuserloggedin} loggedOut={loggedOut} />
+         {/* <Navbar isuserloggedin={isuserloggedin} loggedOut={loggedOut} /> */}
+         <Navbar/>
          <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/form" component={Form} />
-          <Route exact path="/login"><Login loggedin={loggedin}/></Route> 
+          {/* <Route exact path="/login"><Login loggedin={loggedin}/></Route>  */}
+          <Route exact path="/login"><Login/></Route> 
           <Route exact path="/recoverpassword"><RecoverPassword/></Route>
           <Route exact path="/signup" component={Signup} />
           <PrivateRoute path="/cake/:cakeid" component={CakeDetails}  />
           <Route exact path="/search" component={Search} />
           <PrivateRoute path="/cakelist" component={CakeList} />
+          <Route exact path="/cart" component={Cart}/>
           <Route exact path="**" component={Pagenotfound} />
          </Switch>
          </BrowserRouter>

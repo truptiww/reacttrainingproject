@@ -1,6 +1,8 @@
 import { Link, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
+import { connect } from "react-redux";
+// import { reducer } from "../reduxstore/reducers";
 
 
 export function Navbar(props) {
@@ -41,9 +43,11 @@ export function Navbar(props) {
 
   function logout(event){
     event.preventDefault();
-    props.loggedOut();
+    // props.loggedOut();
     localStorage.clear();
     notifysuccess();
+    props.history.push("/")
+    window.location.reload()
   }
 
   return (
@@ -58,6 +62,9 @@ export function Navbar(props) {
           {/* <li className="nav-item">
             <Link to="/Form" class="nav-link">Product Form</Link>
           </li> */}
+           {props.name && <li className="navbar-brand">
+             Welcome {props.name}
+          </li>}
           <li className="nav-item">
             <Link to="/CakeList" class="nav-link">Cake Types</Link>
           </li>
@@ -68,7 +75,7 @@ export function Navbar(props) {
         </form>}
 
         {props.isuserloggedin===true && <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Cart</button>
+        <Link to="/cart"><button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Cart</button></Link>
         <button onClick={logout} class="btn btn-danger my-2 my-sm-0 mr-3" type="submit">Logout</button>
         </form>}
 
@@ -87,5 +94,11 @@ export function Navbar(props) {
   )
 }
 
-export default Navbar = withRouter(Navbar)
+Navbar = withRouter(Navbar)
+export default connect(function(state, props){
+  return{
+    isuserloggedin : state["AuthReducer"]["isuserloggedin"],
+    name:state["AuthReducer"]["user"] && ["AuthReducer"]["name"]
+  }
+})(Navbar)
 

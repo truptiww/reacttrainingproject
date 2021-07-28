@@ -3,6 +3,7 @@ import { Component, PureComponent } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from 'react-loader-spinner';
+import { connect } from "react-redux";
 
 
 class Login extends PureComponent {
@@ -25,7 +26,15 @@ class Login extends PureComponent {
         progress: undefined,
         });
 
-    notifyalert = () => toast("Invalid Credentials")
+    notifyalert = () => toast.error('Invalid Credentials', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
 
     hideLoader = () => {
         this.setState({ loading: false });
@@ -65,14 +74,17 @@ class Login extends PureComponent {
         }).then((response)=>{
             console.log("response from login api",response)
             if(response.data.token){
-                this.props.loggedin()
+                this.props.dispatch({
+                    type:"LOGIN",
+                    payload:response.data
+                })
                 localStorage.token = response.data.token
                 this.notifysuccess()
                 this.showLoader()
                 this.props.history.push("/")
             }
             else{
-                alert("Invalid Credentials")
+                // alert("Invalid Credentials")
                 this.notifyalert()
                 this.hideLoader()
             }
@@ -118,6 +130,7 @@ class Login extends PureComponent {
     }
 }
 
+Login = withRouter(Login)
 
-export default withRouter(Login)
+export default connect()(Login)
 // withRouter is adding props to Login Component same props which adds Router 

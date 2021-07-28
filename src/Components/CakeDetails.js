@@ -1,12 +1,34 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Cake from "./Cake"
+import { toast } from "react-toastify";
+// import Cake from "./Cake"
 
 // let CakeImage = "frosting-cake.webp"
 
 
 function CakeDetails(props) {
   var [cakedetails, setCakeDetails] = useState({})
+
+  const notify = () => toast.warn('Please Login or Register to view cart', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
+  // function showCart(event) {
+  //   event.preventDefault();
+  //   if (!localStorage.token) {
+  //     notify()
+  //     props.history.push('/login')
+  //   } else {
+  //     props.history.push('/cart')
+  //   }
+  // }
+
   useEffect(() => {
     let apiurl = process.env.REACT_APP_BASE_API + "/cake/" + props.match.params.cakeid
     axios(
@@ -23,6 +45,32 @@ function CakeDetails(props) {
     })
 
   }, [])
+
+  let addCart =(event) => {
+    let apiurl = process.env.REACT_APP_BASE_API + "/addcaketocart"
+    axios(
+      {
+        method: 'post',
+        url: apiurl,
+        headers:{
+          authToken:localStorage.token
+        }
+      } 
+    ).then((response) => {
+      console.log("response from add to cart api", response.data)
+      if (!localStorage.token) {
+            notify()
+            props.history.push('/login')
+          } else {
+            alert("added to cart")
+            props.history.push('/cart')
+          }
+    }, (error) => {
+      alert("unable to add in cart")
+      console.log("error from add to cart api", error)
+    })
+  }
+
   return (
     <div className="container mt-4">
       {/* Cake Details Page  for this cake {props.match.params.cakeid} */}
@@ -36,7 +84,7 @@ function CakeDetails(props) {
                 <li key={ingredient}>{ingredient}</li>
               ))}
             </ul>
-            </div>}
+          </div>}
         </div>
         <div className="col-8 pl-5">
           <h2 className="cake-title mb-4">{cakedetails.name}</h2>
@@ -53,10 +101,12 @@ function CakeDetails(props) {
           <p><b>Description:</b> {cakedetails.description}</p>
           <p><b>Current Price :</b> {'\u20B9'} {cakedetails.price}</p>
           <p><b>Weight :</b>  {cakedetails.weight}kg</p>
-          <p><b>Cake Type(Eggless) :</b>  {cakedetails.eggless?'yes':'no'}</p>
+          <p><b>Cake Type(Eggless) :</b>  {cakedetails.eggless ? 'yes' : 'no'}</p>
           <p><b>Flavour :</b> {cakedetails.flavour}</p>
           <p><b>Occasion :</b> {cakedetails.type}</p>
-          <button className="btn btn-primary" type="button">Add to Cart</button>
+          <div className="cart-button mt-5">
+            <button onClick={addCart} className="btn btn-primary" type="button">Add to Cart</button>
+          </div>
         </div>
       </div>
     </div>
