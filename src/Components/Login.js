@@ -16,7 +16,7 @@ class Login extends PureComponent {
         }
     }
 
-    notifysuccess = () => toast.success('Login Sucessfully!', {
+    notifysuccess = () => toast.success('Loggedin Sucessful!', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -34,6 +34,16 @@ class Login extends PureComponent {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        });
+
+        notifyerror = () => toast.error('Please Enter Credentials', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
         });
 
     hideLoader = () => {
@@ -56,11 +66,11 @@ class Login extends PureComponent {
     login = (event) => {
         event.preventDefault();
 
-        // update the state
-        // this.setState({
-        //     name: "Trupti Rane",
-        //     errorMessage: "Invalid Credentials"
-        // })
+        //update the state
+        this.setState({
+            // name: "Trupti Rane",
+            // errorMessage: "Please Enter Crdentials"
+        })
 
         // if(this.user.email==="trupti.rane@neosoftmail.com" && this.user.password==="test"){
         //       this.props.history.push("/")
@@ -70,7 +80,7 @@ class Login extends PureComponent {
         axios({
             method:"post",
             url:apiurl,
-            data:this.user  // we requrie structure like {email,password}
+            data:this.user  // we require structure like {email,password}
         }).then((response)=>{
             console.log("response from login api",response)
             if(response.data.token){
@@ -80,16 +90,26 @@ class Login extends PureComponent {
                 })
                 localStorage.token = response.data.token
                 this.notifysuccess()
-                this.showLoader()
+                this.setState({
+                    errorMessage: "Loggedin Suceesful!"
+                })
+                // this.showLoader()
                 this.props.history.push("/")
             }
             else{
                 // alert("Invalid Credentials")
                 this.notifyalert()
                 this.hideLoader()
+                this.setState({
+                    errorMessage: "You have entered invalid credentials"
+                })
             }
         },(error)=>{
          console.log("error from login api",error)
+         this.notifyerror()
+         this.setState({
+            errorMessage: "Please Enter credentials"
+         })
         })
         console.log(",,,,,,,,,,,", this.user)   
     }
@@ -99,12 +119,12 @@ class Login extends PureComponent {
             <div className="container mt-4">
                 {/* <h1>{this.state.name}</h1> */}
                 {/* {this.state.loading} */}
-                {this.state.loading && <Loader
+                {/* {this.state.loading && <Loader
                     type="ThreeDots"
                     color="#00BFFF"
                     height={100}
                     width={100} //3 secs
-                />}
+                />} */}
                 <h2 className="text-center">Login Form</h2>
                 <form style={{ maxWidth: '60%', margin: '2rem auto 0' }}>
                     <div class="form-group">

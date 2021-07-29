@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PureComponent } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 class RecoverPassword extends PureComponent {
     constructor(props) {
@@ -10,6 +11,28 @@ class RecoverPassword extends PureComponent {
             error: "Invalid Credentials"
         }
     }
+
+    
+    notifysuccess = () => toast.success('please check email we have sent you a password', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+
+    notifyalert = () => toast.error('Please Enter Credentials', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
+
 
 
     user = {}
@@ -29,8 +52,21 @@ class RecoverPassword extends PureComponent {
             data:this.user  // we required structure like {email}
         }).then((response)=>{
             console.log("response from recoverpassword api",response)
+            if (response.data.data) {
+                this.notifysuccess()
+                this.props.history.push('/login')
+              } else {
+                this.notifyalert()
+                this.setState({
+                    errorMessage: "You have entered invalid credentials"
+                })
+              }
         },(error)=>{
          console.log("error from recoverpassword api",error)
+         this.notifyalert()
+         this.setState({
+            errorMessage: "Please Enter credentials tst"
+         })
         })
     }
 
@@ -44,6 +80,7 @@ class RecoverPassword extends PureComponent {
                         <label for="emailaddress">Email address</label>
                         <input onChange={this.handleEmail} type="email" class="form-control" name="email" placeholder="Email" />
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <label className="errormessage">{this.state.errorMessage}</label>
                     </div>
                     <button onClick={this.recoverpassword} type="submit" className="btn btn-primary">submit</button>
                 </form>

@@ -20,7 +20,7 @@ function Cakelist(props) {
                 payload: response.data
             })
             {props.cakelistLoaded &&
-                alert("cakelist loaded");
+                // alert("cakelist loaded");
                 setCakes(response.data.data)
             }
         }, (error) => {

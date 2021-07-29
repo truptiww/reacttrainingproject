@@ -45,9 +45,9 @@ export function Navbar(props) {
     event.preventDefault();
     // props.loggedOut();
     localStorage.clear();
-    notifysuccess();
     props.history.push("/")
     window.location.reload()
+    notifysuccess();
   }
 
   return (
