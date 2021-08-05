@@ -2,7 +2,7 @@ import axios from "axios"
 import { Component, PureComponent } from "react"
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
-
+import { ToastContainer, toast } from 'react-toastify';
 
 
 class Signup extends PureComponent {
@@ -23,6 +23,37 @@ class Signup extends PureComponent {
     componentDidUpdate() {
         // alert("In didupdate")
     }
+
+    notifysuccess = () => toast.success('Loggedin Sucessful!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+
+    notifyalert = () => toast.error('Invalid Credentials', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+
+        notifyerror = () => toast.error('Please Enter Credentials', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
     user = {}
 
     handleEmail = (event) => {
@@ -54,8 +85,27 @@ class Signup extends PureComponent {
             data:this.user  // we required structure like {email,name,password}
         }).then((response)=>{
             console.log("response from signup api",response)
+            if(response.data.token){
+                localStorage.token = response.data.token
+                this.notifysuccess()
+                this.setState({
+                    errorMessage: "Signup Suceesful!"
+                })
+                this.props.history.push("/")
+            }
+            else{
+                // alert("Invalid Credentials")
+                this.notifyalert()
+                this.setState({
+                    errorMessage: "You have entered invalid credentials"
+                })
+            }
         },(error)=>{
          console.log("error from signup api",error)
+         this.notifyerror()
+         this.setState({
+            errorMessage: "Please Enter credentials"
+         })
         })
         event.preventDefault()
     }
@@ -99,12 +149,12 @@ class Signup extends PureComponent {
                         <input onChange={this.handleEmail} type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" />
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mb-1">
                         <label for="password">Password</label>
                         <input onChange={this.handlePassword} type="password" class="form-control" placeholder="Password" />
                     </div>
+                    <label className="errormessage mb-4">{this.state.errorMessage}</label>
                     <div className="form-group">
-                        <label className="errormessage">{this.state.errorMessage}</label>
                         <button onClick={this.signup} type="submit" className="btn btn-primary">Signup</button>
                     </div>
                     <div class="form-group">

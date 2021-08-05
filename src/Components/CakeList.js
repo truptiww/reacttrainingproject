@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import Cake from "./Cake";
 
-function Cakelist(props) {
+function CakeList(props) {
     var [cakes, setCakes] = useState([])
     useEffect(() => {
         let apiurl = process.env.REACT_APP_BASE_API + "/allcakes"
@@ -16,13 +16,10 @@ function Cakelist(props) {
         ).then((response) => {
             console.log("response from all cakes api", response.data)
             props.dispatch({
-                type: "CakelistLoaded",
+                type: "GETCAKES",
                 payload: response.data
             })
-            {props.cakelistLoaded &&
-                // alert("cakelist loaded");
-                setCakes(response.data.data)
-            }
+            setCakes(response.data.data)
         }, (error) => {
             console.log("error from all cakes api", error)
         })
@@ -40,10 +37,10 @@ function Cakelist(props) {
     )
 }
 
-Cakelist = withRouter(Cakelist)
+CakeList = withRouter(CakeList)
 export default connect(function (state, props) {
     return {
-        cakelistLoaded: state["AuthCakelist"]["isCakelistLoaded"]
+        name: state["CakeList"]["isCakelistLoaded"]
     }
 
-})(Cakelist)
+})(CakeList)

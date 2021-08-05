@@ -9,7 +9,7 @@ function Home(props) {
     return (
         <div>
             <Carousel />
-            <h1 className="mb-4 text-center">Home Page</h1>
+            <h2 className="mt-4 text-center">Cakes</h2>
             <MyContext.Provider>
             <CakeList history={props.history}/>
             </MyContext.Provider>

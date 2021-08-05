@@ -45,13 +45,13 @@ export function Navbar(props) {
     event.preventDefault();
     // props.loggedOut();
     localStorage.clear();
-    props.history.push("/")
+    // props.history.push("/")
     window.location.reload()
     notifysuccess();
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand">{title}</Link>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

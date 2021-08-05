@@ -1,7 +1,9 @@
 // reducers are nothing but just pure functions who are responsible for updating the store
 
 export var AuthReducer = function (state = {
-    isuserloggedin : localStorage.token?true:false}, action) {
+    isuserloggedin : localStorage.token?true:false,
+    isloading : false
+    }, action) {
 
     // state means here state of store i.e that object which contains data
     // action means what it has to do 
@@ -20,17 +22,46 @@ export var AuthReducer = function (state = {
 
 }
 
-export var AuthCakelist = function (state = {
-    isCakelistLoaded : true }, action) {
+export var CakeList = function (state = {
+    isCakelistLoaded : true
+} , action) {
 
     // state means here state of store i.e that object which contains data
     // action means what it has to do 
 
     switch (action.type) {
-        case "CakelistLoaded": {
+        case "GETCAKES": {
             state = { ...state }
-            state["isCakelistLoaded"] = false
+            state["isCakelistLoaded"] = action.payload
             console.log(".............." , state)
+            return state
+        }
+        
+        default : return state
+    }
+
+}
+
+export var CartReducer = function (state = {dell:10}, action) {
+
+    switch (action.type) {
+        case "CART_FETCHING": {
+            state = { ...state }
+            state["isloading"] = true
+            return state
+        }
+
+        case "CART_FETCHED": {
+            state = { ...state }
+            state["isloading"] = false
+            state["cartitems"] = action.payload
+            return state
+        }
+
+        case "CART_FAILURE": {
+            state = { ...state }
+            state["isloading"] = false
+            state["error"] = "Error Occured"
             return state
         }
         

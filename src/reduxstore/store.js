@@ -1,10 +1,18 @@
-import  {createStore, combineReducers} from "redux"
-import { reducer, reducer1, AuthReducer, AuthCakelist } from "./reducers"
-
-var reducers = combineReducers({reducer, reducer1, AuthReducer, AuthCakelist})
+import  {createStore, combineReducers, applyMiddleware} from "redux"
+import { reducer, reducer1, AuthReducer, CakeList, CartReducer } from "./reducers"
 
 
-var store = createStore(reducers)
+import creatSaga from "redux-saga"
+import RootSaga from "./Sagas"
+
+var sagaMiddleware = creatSaga()
+
+var reducers = combineReducers({reducer, reducer1, AuthReducer, CakeList, CartReducer})
+
+
+var store = createStore(reducers, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(RootSaga)
 
 export default store
 

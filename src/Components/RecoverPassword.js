@@ -52,7 +52,8 @@ class RecoverPassword extends PureComponent {
             data:this.user  // we required structure like {email}
         }).then((response)=>{
             console.log("response from recoverpassword api",response)
-            if (response.data.data) {
+            if (response.data.token) {
+                localStorage.token = response.data.token
                 this.notifysuccess()
                 this.props.history.push('/login')
               } else {

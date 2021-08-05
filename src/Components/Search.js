@@ -25,13 +25,14 @@ function Search(props) {
             console.log("error from search results api", error)
         })
     }, [query])
+
     return (
         <div className="container mt-4">
-            <h1>Search Cakes for  {query} </h1>
+            <h1>Search cakes for  {query} </h1>
 
             
-              {(searchresult.length) == 0 &&
-                <h2 className="text-center mt-5">items not found</h2>
+              {(searchresult.length) === 0 &&
+               <h2 className="text-center mt-5">Items not found</h2>
               }
 
             <div className="row mt-4">

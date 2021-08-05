@@ -46,15 +46,15 @@ function CakeDetails(props) {
 
   }, [])
 
-  let addCart =(event) => {
+  let addToCart =(event, token) => {
     let apiurl = process.env.REACT_APP_BASE_API + "/addcaketocart"
     axios(
       {
         method: 'post',
         url: apiurl,
-        headers:{
-          authToken:localStorage.token
-        }
+        data: {cakeid: cakedetails.cakeid, image: cakedetails.image, name: cakedetails.name, price: cakedetails.price, weight: cakedetails.weight},
+        headers: {authtoken: localStorage.token},
+
       } 
     ).then((response) => {
       console.log("response from add to cart api", response.data)
@@ -105,7 +105,7 @@ function CakeDetails(props) {
           <p><b>Flavour :</b> {cakedetails.flavour}</p>
           <p><b>Occasion :</b> {cakedetails.type}</p>
           <div className="cart-button mt-5">
-            <button onClick={addCart} className="btn btn-primary" type="button">Add to Cart</button>
+            <button onClick={addToCart} className="btn btn-primary" type="button">Add to Cart</button>
           </div>
         </div>
       </div>
